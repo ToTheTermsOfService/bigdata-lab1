@@ -1,8 +1,5 @@
 namespace MovieRevenue.Core;
 
-/// <summary>
-/// Фільм у "людському" вигляді: те, що ми прочитали з CSV або отримали від користувача API.
-/// </summary>
 public sealed class MovieRecord
 {
     public string Title { get; init; } = "";

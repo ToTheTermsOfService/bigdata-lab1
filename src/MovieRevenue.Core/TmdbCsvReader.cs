@@ -4,10 +4,8 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace MovieRevenue.Core;
 
-/// <summary>
-/// Читає tmdb_5000_movies.csv. ML.NET TextLoader тут не підходить: колонка genres містить JSON,
-/// а overview/tagline — коми, лапки та переноси рядків. TextFieldParser коректно обробляє все це.
-/// </summary>
+// ML.NET's TextLoader cannot read this file: the genres column holds JSON and free-text columns
+// contain commas, quotes and newlines. TextFieldParser handles all of that.
 public static class TmdbCsvReader
 {
     public static List<MovieRecord> Read(string path)
@@ -48,7 +46,6 @@ public static class TmdbCsvReader
     private static double ParseDouble(string value) =>
         double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out var d) ? d : 0;
 
-    // Формат: [{"id": 28, "name": "Action"}, {"id": 12, "name": "Adventure"}]
     private static List<string> ParseGenres(string json)
     {
         if (string.IsNullOrWhiteSpace(json))

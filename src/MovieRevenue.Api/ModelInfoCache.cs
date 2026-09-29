@@ -4,11 +4,8 @@ using MovieRevenue.Core;
 
 namespace MovieRevenue.Api;
 
-/// <summary>
-/// Кешує опис моделей (*.json) замість читання з диска на кожен запит.
-/// Файл перечитується лише коли змінився (після повторного тренування). Якщо Trainer саме зараз
-/// його переписує і прочитати не вдалося, повертається попередня версія, а не помилка 500.
-/// </summary>
+// Reloads a model description only when the file changes, and keeps serving the previous one
+// while the trainer is rewriting it.
 public sealed class ModelInfoCache(string modelsDir)
 {
     private readonly ConcurrentDictionary<string, (DateTime WriteTimeUtc, ModelInfo Info)> _cache = new();

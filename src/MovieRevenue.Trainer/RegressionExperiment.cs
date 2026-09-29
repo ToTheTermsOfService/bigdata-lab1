@@ -6,7 +6,6 @@ using MovieRevenue.Core;
 
 namespace MovieRevenue.Trainer;
 
-/// <summary>Одна регресійна задача: що прогнозуємо (Label) і за якими ознаками.</summary>
 public sealed record ExperimentSpec(
     string Name,
     string Label,
@@ -15,11 +14,6 @@ public sealed record ExperimentSpec(
     string InfoFile,
     bool LabelIsLogRevenue);
 
-/// <summary>
-/// Тренування → оцінювання → серіалізація для однієї задачі:
-/// 1) ділимо дані 80/20; 2) для кожного тренера — 5-fold CV на train та оцінка на test;
-/// 3) найкращий за CV R² зберігаємо в .zip + опис у .json.
-/// </summary>
 public sealed class RegressionExperiment(MLContext ml, ExperimentSpec spec, string modelsDir)
 {
     private const int Seed = 42;
@@ -31,7 +25,6 @@ public sealed class RegressionExperiment(MLContext ml, ExperimentSpec spec, stri
         Console.WriteLine($" Модель: {spec.Name}   (мітка: {spec.Label}, рядків: {rows.Count})");
         Console.WriteLine(new string('=', 100));
 
-        // Детермінований поділ 80/20 — щоб результати відтворювались і ми знали назви фільмів у test.
         var rng = new Random(Seed);
         var shuffled = rows.OrderBy(_ => rng.Next()).ToList();
         var testCount = rows.Count / 5;
@@ -93,7 +86,6 @@ public sealed class RegressionExperiment(MLContext ml, ExperimentSpec spec, stri
 
         PrintSamplePredictions(bestModel, test);
 
-        // Серіалізація: модель разом зі схемою вхідних даних → .zip
         Directory.CreateDirectory(modelsDir);
         var modelPath = Path.Combine(modelsDir, spec.ModelFile);
         ml.Model.Save(bestModel, trainData.Schema, modelPath);
@@ -116,11 +108,7 @@ public sealed class RegressionExperiment(MLContext ml, ExperimentSpec spec, stri
         return info;
     }
 
-    /// <summary>
-    /// Спільна частина пайплайну: one-hot кодування мови → склеювання ознак у вектор → нормалізація.
-    /// Нормалізація MinMax (у [0; 1]) потрібна лінійним моделям (Sdca, OGD, Ols, Poisson), деревам вона не шкодить.
-    /// MeanVariance тут гірша: рідкісні one-hot колонки (мови) після неї отримують величезні значення і OGD розходиться.
-    /// </summary>
+    // MinMax rather than MeanVariance: the latter blows up rare one-hot columns and OnlineGradientDescent diverges.
     private IEstimator<ITransformer> BuildPipeline() =>
         ml.Transforms.Categorical.OneHotEncoding("LanguageEncoded", nameof(ModelInput.OriginalLanguage))
             .Append(ml.Transforms.Concatenate(TrainerCatalog.FeaturesColumn, [.. spec.NumericFeatures, "LanguageEncoded"]))
@@ -136,10 +124,7 @@ public sealed class RegressionExperiment(MLContext ml, ExperimentSpec spec, stri
         result.TestMedianApePercent = ape[ape.Length / 2];
     }
 
-    /// <summary>
-    /// Permutation feature importance "вручну": перемішуємо одну ознаку в тестових даних і дивимось,
-    /// наскільки погіршився R². Чим більше падіння — тим сильніше модель спирається на цю ознаку.
-    /// </summary>
+    // Shuffle one feature in the test set and measure how much R2 drops.
     private List<FeatureImportance> PermutationImportance(ITransformer model, List<ModelInput> test)
     {
         var baseline = Evaluate(model, test);

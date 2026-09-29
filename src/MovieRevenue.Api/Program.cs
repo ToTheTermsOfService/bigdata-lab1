@@ -1,6 +1,3 @@
-// Частина 2: завантаження (десеріалізація) моделей та їх використання через Web API.
-// Запуск: dotnet run --project src/MovieRevenue.Api  →  http://localhost:5071/swagger
-
 using System.Reflection;
 using Microsoft.Extensions.ML;
 using MovieRevenue.Api;
@@ -19,8 +16,7 @@ var ratingModelPath = Path.Combine(modelsDir, ModelFiles.RatingModel);
 if (!File.Exists(revenueModelPath) || !File.Exists(ratingModelPath))
     throw new FileNotFoundException($"Моделі не знайдено в {modelsDir}. Спочатку запустіть MovieRevenue.Trainer.");
 
-// PredictionEnginePool завантажує модель з .zip (ml.Model.Load під капотом) і дає потокобезпечні PredictionEngine.
-// watchForChanges: після повторного тренування API підхопить нову модель без перезапуску.
+// PredictionEngine is not thread-safe, hence the pool. watchForChanges reloads a retrained model.
 builder.Services.AddPredictionEnginePool<ModelInput, ScorePrediction>()
     .FromFile(modelName: RevenueModelName, filePath: revenueModelPath, watchForChanges: true)
     .FromFile(modelName: RatingModelName, filePath: ratingModelPath, watchForChanges: true);
@@ -115,7 +111,6 @@ static MovieRecord ToRecord(MovieRequest r, double voteAverage) => new()
     Title = r.Title ?? "",
     Budget = r.Budget,
     Runtime = r.Runtime,
-    // Validate вже перевірив, що дата й жанри задані.
     ReleaseDate = r.ReleaseDate!.Value.ToDateTime(TimeOnly.MinValue),
     Genres = r.Genres!,
     OriginalLanguage = r.OriginalLanguage,

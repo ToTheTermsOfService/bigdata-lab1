@@ -4,7 +4,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MovieRevenue.Api;
 
-/// <summary>Готовий приклад запиту у Swagger UI, щоб на демонстрації одразу натиснути "Execute".</summary>
 public sealed class MovieRequestExampleFilter : ISchemaFilter
 {
     public void Apply(IOpenApiSchema schema, SchemaFilterContext context)

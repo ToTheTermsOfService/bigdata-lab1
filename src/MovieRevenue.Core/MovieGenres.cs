@@ -1,8 +1,5 @@
 namespace MovieRevenue.Core;
 
-/// <summary>
-/// Фіксований список жанрів TMDB. Порядок важливий: індекс жанру = позиція у векторі ознак.
-/// </summary>
 public static class MovieGenres
 {
     public const int Count = 20;
@@ -18,7 +15,6 @@ public static class MovieGenres
     public static bool IsKnown(string genre) =>
         All.Contains(genre, StringComparer.OrdinalIgnoreCase);
 
-    /// <summary>One-hot (multi-hot) кодування: 1 на позиції кожного жанру фільму.</summary>
     public static float[] Encode(IEnumerable<string> genres)
     {
         var vector = new float[Count];

@@ -2,41 +2,41 @@ using System.ComponentModel;
 
 namespace MovieRevenue.Api;
 
-/// <summary>Параметри фільму, для якого робимо прогноз.</summary>
+/// <summary>Movie to predict for.</summary>
 public sealed class MovieRequest
 {
-    /// <summary>Назва (лише для відповіді, на прогноз не впливає).</summary>
+    /// <summary>Title. Echoed back in the response, does not affect the prediction.</summary>
     [DefaultValue("Dune: Part Three")]
     public string? Title { get; set; }
 
-    /// <summary>Бюджет виробництва у доларах США.</summary>
+    /// <summary>Production budget, USD.</summary>
     [DefaultValue(190_000_000)]
     public double Budget { get; set; }
 
-    /// <summary>Тривалість у хвилинах.</summary>
+    /// <summary>Runtime in minutes.</summary>
     [DefaultValue(155)]
     public double Runtime { get; set; }
 
-    /// <summary>Дата релізу (впливають рік та місяць).</summary>
+    /// <summary>Release date; year and month are used as features.</summary>
     [DefaultValue("2026-12-18")]
     public DateOnly? ReleaseDate { get; set; }
 
-    /// <summary>Жанри з переліку TMDB (див. GET /api/genres).</summary>
+    /// <summary>TMDB genres, see GET /api/genres.</summary>
     public List<string>? Genres { get; set; }
 
-    /// <summary>Мова оригіналу, код ISO 639-1 (en, fr, ja, ...).</summary>
+    /// <summary>Original language, ISO 639-1 code (en, fr, ja, ...).</summary>
     [DefaultValue("en")]
     public string OriginalLanguage { get; set; } = "en";
 
-    /// <summary>Популярність TMDB (у датасеті медіана ≈ 13, блокбастери — 50–200).</summary>
+    /// <summary>TMDB popularity score (dataset median is about 13, blockbusters 50-200).</summary>
     [DefaultValue(80)]
     public double Popularity { get; set; }
 
-    /// <summary>Середня оцінка 0–10. Якщо не задано — підставляється прогноз моделі рейтингу.</summary>
+    /// <summary>Average vote, 0-10. When omitted, the rating model's prediction is used instead.</summary>
     [DefaultValue(null)]
     public double? VoteAverage { get; set; }
 
-    /// <summary>Кількість голосів на TMDB (у датасеті медіана ≈ 500, хіти — 5000+).</summary>
+    /// <summary>TMDB vote count (dataset median is about 500, hits 5000+).</summary>
     [DefaultValue(4000)]
     public double VoteCount { get; set; }
 }
