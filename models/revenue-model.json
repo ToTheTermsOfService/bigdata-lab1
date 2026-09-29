@@ -1,0 +1,158 @@
+{
+  "Name": "\u041F\u0440\u043E\u0433\u043D\u043E\u0437 \u0434\u043E\u0445\u043E\u0434\u0443 \u0444\u0456\u043B\u044C\u043C\u0443",
+  "Label": "LogRevenue",
+  "BestTrainer": "LightGbm",
+  "Features": [
+    "LogBudget",
+    "LogPopularity",
+    "Runtime",
+    "VoteAverage",
+    "LogVoteCount",
+    "ReleaseYear",
+    "ReleaseMonth",
+    "Genres",
+    "OriginalLanguage"
+  ],
+  "TrainedAtUtc": "2026-09-21T13:21:25.0851283Z",
+  "TrainRows": 2564,
+  "TestRows": 641,
+  "Leaderboard": [
+    {
+      "Trainer": "LightGbm",
+      "CvRSquaredMean": 0.6581799448752157,
+      "CvRSquaredStd": 0.021852581283555963,
+      "TestRSquared": 0.6749610247240564,
+      "TestRmse": 0.9702508945184614,
+      "TestMae": 0.6625263865763981,
+      "TestMaeUsd": 48278070.23630379,
+      "TestMedianApePercent": 41.72344977166441,
+      "TrainSeconds": 0.8743676
+    },
+    {
+      "Trainer": "Gam",
+      "CvRSquaredMean": 0.6538245128052711,
+      "CvRSquaredStd": 0.02073836327771137,
+      "TestRSquared": 0.6888063822279563,
+      "TestRmse": 0.9493616244798012,
+      "TestMae": 0.6799496919986052,
+      "TestMaeUsd": 54784820.924029715,
+      "TestMedianApePercent": 47.121567292588736,
+      "TrainSeconds": 11.2818259
+    },
+    {
+      "Trainer": "FastTreeTweedie",
+      "CvRSquaredMean": 0.6498638430420666,
+      "CvRSquaredStd": 0.026038536865455337,
+      "TestRSquared": 0.6676975272678132,
+      "TestRmse": 0.9810318745768619,
+      "TestMae": 0.6640779001292498,
+      "TestMaeUsd": 48904999.77868281,
+      "TestMedianApePercent": 44.24507463082972,
+      "TrainSeconds": 0.9390831
+    },
+    {
+      "Trainer": "FastTree",
+      "CvRSquaredMean": 0.6492517692508976,
+      "CvRSquaredStd": 0.026675981522397633,
+      "TestRSquared": 0.6775933636821272,
+      "TestRmse": 0.9663141031775438,
+      "TestMae": 0.6587321836379314,
+      "TestMaeUsd": 49505228.52070666,
+      "TestMedianApePercent": 42.70752554374957,
+      "TrainSeconds": 1.0715922
+    },
+    {
+      "Trainer": "FastForest",
+      "CvRSquaredMean": 0.6250810714678268,
+      "CvRSquaredStd": 0.008758989704138584,
+      "TestRSquared": 0.6516136827184487,
+      "TestRmse": 1.004492912276317,
+      "TestMae": 0.7245671142839977,
+      "TestMaeUsd": 60100989.74343782,
+      "TestMedianApePercent": 47.960214981017394,
+      "TrainSeconds": 0.7023531
+    },
+    {
+      "Trainer": "Sdca",
+      "CvRSquaredMean": 0.6244315653760935,
+      "CvRSquaredStd": 0.017900903428245872,
+      "TestRSquared": 0.6719777036077872,
+      "TestRmse": 0.974693374751479,
+      "TestMae": 0.681549305848882,
+      "TestMaeUsd": 52788238.33711238,
+      "TestMedianApePercent": 44.84402241009716,
+      "TrainSeconds": 6.8526803
+    },
+    {
+      "Trainer": "LbfgsPoisson",
+      "CvRSquaredMean": 0.6240374706846349,
+      "CvRSquaredStd": 0.02197521100036966,
+      "TestRSquared": 0.6496043716670974,
+      "TestRmse": 1.0073854439140484,
+      "TestMae": 0.7190008252719635,
+      "TestMaeUsd": 61524796.13822379,
+      "TestMedianApePercent": 48.824657303824324,
+      "TrainSeconds": 0.2341014
+    },
+    {
+      "Trainer": "Ols",
+      "CvRSquaredMean": 0.5624065516734851,
+      "CvRSquaredStd": 0.010736240076497287,
+      "TestRSquared": 0.6087306494000901,
+      "TestRmse": 1.0645210324343586,
+      "TestMae": 0.7750644698715805,
+      "TestMaeUsd": 64884771.824586816,
+      "TestMedianApePercent": 51.291864950182244,
+      "TrainSeconds": 0.0687829
+    },
+    {
+      "Trainer": "OnlineGradientDescent",
+      "CvRSquaredMean": 0.4120269091921431,
+      "CvRSquaredStd": 0.024342217261766146,
+      "TestRSquared": 0.44421036945765835,
+      "TestRmse": 1.2687368431712391,
+      "TestMae": 0.9570247215711383,
+      "TestMaeUsd": 86467048.34387264,
+      "TestMedianApePercent": 63.05608495826135,
+      "TrainSeconds": 0.0461087
+    }
+  ],
+  "FeatureImportance": [
+    {
+      "Feature": "LogVoteCount",
+      "RSquaredDrop": 0.7687306598334623
+    },
+    {
+      "Feature": "LogBudget",
+      "RSquaredDrop": 0.2425488310011289
+    },
+    {
+      "Feature": "ReleaseYear",
+      "RSquaredDrop": 0.14421687770991098
+    },
+    {
+      "Feature": "Genres",
+      "RSquaredDrop": 0.07907669277476226
+    },
+    {
+      "Feature": "VoteAverage",
+      "RSquaredDrop": 0.041134047235517834
+    },
+    {
+      "Feature": "ReleaseMonth",
+      "RSquaredDrop": 0.013626420451428145
+    },
+    {
+      "Feature": "Runtime",
+      "RSquaredDrop": 0.011098210355932614
+    },
+    {
+      "Feature": "LogPopularity",
+      "RSquaredDrop": 0.009296782659656944
+    },
+    {
+      "Feature": "OriginalLanguage",
+      "RSquaredDrop": 0.003980610379316185
+    }
+  ]
+}
